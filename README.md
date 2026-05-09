@@ -14,11 +14,7 @@
 
 ## Installation
 
-```bash
-pip install test-report-vibes
-```
-
-For local development from source:
+From source:
 
 ```bash
 git clone https://github.com/srbarrios/test-report-vibes.git
