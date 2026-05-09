@@ -25,10 +25,10 @@ pip install -e .
 ## Quick start
 
 ```bash
-test-report-vibes examples/sample_report.json
+test-report-vibes examples/sample_report_with_classifiers.json
 ```
 
-This creates `examples/sample_report.html`.
+This creates `examples/sample_report_with_classifiers.html`.
 
 ## CLI usage
 
