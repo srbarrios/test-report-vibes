@@ -1,0 +1,46 @@
+[
+  {
+    "uri": "features/ui.feature",
+    "id": "ui-tests",
+    "keyword": "Feature",
+    "name": "UI Tests",
+    "description": "User interface tests",
+    "line": 1,
+    "elements": [
+      {
+        "id": "ui-tests;login-ui",
+        "keyword": "Scenario",
+        "name": "Login form displays correctly",
+        "type": "scenario",
+        "line": 3,
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I open the login page",
+            "line": 4,
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see the login form",
+            "line": 5,
+            "result": {
+              "status": "failed",
+              "duration": 500000,
+              "error_message": "Form not found"
+            },
+            "embeddings": [
+              {
+                "mime_type": "image/png",
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

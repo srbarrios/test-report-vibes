@@ -1,0 +1,40 @@
+[
+  {
+    "uri": "features/slow.feature",
+    "id": "slow-tests",
+    "keyword": "Feature",
+    "name": "Slow Performance Tests",
+    "description": "Tests with slow steps",
+    "line": 1,
+    "elements": [
+      {
+        "id": "slow-tests;slow-scenario",
+        "keyword": "Scenario",
+        "name": "Slow operation",
+        "type": "scenario",
+        "line": 3,
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I wait for a very long time",
+            "line": 4,
+            "result": {
+              "status": "failed",
+              "duration": 8500000000,
+              "error_message": "Timeout waiting"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "something should happen",
+            "line": 5,
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "uri": "features/login.feature",
+    "id": "login-feature",
+    "name": "User Login",
+    "keyword": "Feature",
+    "line": 1,
+    "description": "Test user login functionality",
+    "elements": [
+      {
+        "id": "scenario-1",
+        "name": "Successful login with valid credentials",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "the user is on the login page",
+            "line": 6,
+            "result": {
+              "status": "passed",
+              "duration": 1000000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:10"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "the user enters valid credentials",
+            "line": 7,
+            "result": {
+              "status": "passed",
+              "duration": 500000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:15"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "the user should be logged in",
+            "line": 8,
+            "result": {
+              "status": "passed",
+              "duration": 300000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:20"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-2",
+        "name": "Login with invalid password",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 10,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "the user is on the login page",
+            "line": 11,
+            "result": {
+              "status": "passed",
+              "duration": 1000000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:10"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "the user enters invalid password",
+            "line": 12,
+            "result": {
+              "status": "passed",
+              "duration": 500000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:25"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "an error message should be displayed",
+            "line": 13,
+            "result": {
+              "status": "failed",
+              "duration": 300000000,
+              "error_message": "AssertionError: Expected error message not found"
+            },
+            "match": {
+              "location": "steps/login_steps.rb:30"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-3",
+        "name": "Password reset functionality",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 15,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "the user is on the login page",
+            "line": 16,
+            "result": {
+              "status": "passed",
+              "duration": 1000000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:10"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "the user clicks forgot password",
+            "line": 17,
+            "result": {
+              "status": "passed",
+              "duration": 500000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:35"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "a password reset email should be sent",
+            "line": 18,
+            "result": {
+              "status": "passed",
+              "duration": 300000000
+            },
+            "match": {
+              "location": "steps/login_steps.rb:40"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      }
+    ],
+    "tags": []
+  }
+]

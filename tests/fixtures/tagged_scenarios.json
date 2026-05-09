@@ -1,0 +1,53 @@
+[
+  {
+    "uri": "features/api.feature",
+    "id": "api-tests",
+    "keyword": "Feature",
+    "name": "API Tests",
+    "description": "API integration tests",
+    "line": 1,
+    "tags": [{"name": "@integration", "line": 1}],
+    "elements": [
+      {
+        "id": "api-tests;login-api",
+        "keyword": "Scenario",
+        "name": "Login via API",
+        "type": "scenario",
+        "line": 3,
+        "tags": [{"name": "@integration", "line": 1}, {"name": "@flaky", "line": 2}],
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I call the login API",
+            "line": 4,
+            "result": {
+              "status": "failed",
+              "duration": 1000000,
+              "error_message": "ConnectionError: API timeout"
+            }
+          }
+        ]
+      },
+      {
+        "id": "api-tests;logout-api",
+        "keyword": "Scenario",
+        "name": "Logout via API",
+        "type": "scenario",
+        "line": 8,
+        "tags": [{"name": "@integration", "line": 1}, {"name": "@flaky", "line": 2}],
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I call the logout API",
+            "line": 9,
+            "result": {
+              "status": "failed",
+              "duration": 1000000,
+              "error_message": "ConnectionError: API timeout"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1404 @@
+[
+  {
+    "uri": "features/authentication.feature",
+    "id": "user-authentication",
+    "keyword": "Feature",
+    "name": "User Authentication",
+    "description": "As a user, I want to authenticate securely to access the system",
+    "line": 1,
+    "elements": [
+      {
+        "id": "user-authentication;successful-login",
+        "keyword": "Scenario",
+        "name": "Successful login with valid credentials",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on the login page",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1234567
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 12345
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I enter valid credentials",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2345678
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 15678
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should be logged in successfully",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 987654
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 11234
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 23456
+            }
+          }
+        ]
+      },
+      {
+        "id": "user-authentication;failed-login-wrong-password",
+        "keyword": "Scenario",
+        "name": "Failed login with invalid password",
+        "type": "scenario",
+        "line": 10,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on the login page",
+            "line": 11,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1234567
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 12345
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I enter invalid password",
+            "line": 12,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2345678
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 15678
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see an error message",
+            "line": 13,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:50"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 987654,
+              "error_message": "AssertionError: Expected error message not found\nExpected: 'Invalid credentials'\nActual: 'Server Error 500'\n./features/step_definitions/auth_steps.rb:52:in `/^I should see an error message$/'\nfeatures/authentication.feature:13:in `I should see an error message'"
+            },
+            "embeddings": [
+              {
+                "mime_type": "image/png",
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+              }
+            ],
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 11234
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 23456
+            }
+          }
+        ]
+      },
+      {
+        "id": "user-authentication;timeout-login",
+        "keyword": "Scenario",
+        "name": "Login timeout after prolonged inactivity",
+        "type": "scenario",
+        "line": 15,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on the login page",
+            "line": 16,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1234567
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 12345
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I wait for 5 minutes",
+            "line": 17,
+            "match": {
+              "location": "features/step_definitions/common_steps.rb:100"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 300012345
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 15678
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see a session timeout message",
+            "line": 18,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:65"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 60000123456,
+              "error_message": "execution expired (Timeout::Error)\n./features/support/commonlib.rb:89:in `repeat_until_timeout'\n./features/step_definitions/auth_steps.rb:67:in `/^I should see a session timeout message$/'\nfeatures/authentication.feature:18:in `I should see a session timeout message'"
+            },
+            "embeddings": [
+              {
+                "mime_type": "image/png",
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR42mNk+M/wn4EIwMiIJwAAJV8D/T3lRRcAAAAASUVORK5CYII="
+              }
+            ],
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "skipped"
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "And ",
+            "name": "I should be redirected to login page",
+            "line": 19,
+            "match": {
+              "location": "features/step_definitions/auth_steps.rb:72"
+            },
+            "result": {
+              "status": "skipped"
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:15"
+                },
+                "result": {
+                  "status": "skipped"
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 23456
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  },
+  {
+    "uri": "features/data_processing.feature",
+    "id": "data-processing",
+    "keyword": "Feature",
+    "name": "Data Processing Pipeline",
+    "description": "As a data analyst, I want to process large datasets efficiently",
+    "line": 1,
+    "elements": [
+      {
+        "id": "data-processing;batch-upload",
+        "keyword": "Scenario",
+        "name": "Upload and process batch data",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I have a valid dataset file",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 500000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 8765
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I upload the file to the processing service",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15000000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 9876
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "the data should be processed successfully",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2500000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 7654
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "And ",
+            "name": "I should receive a confirmation notification",
+            "line": 9,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:68"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 800000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 8123
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 45678
+            }
+          }
+        ]
+      },
+      {
+        "id": "data-processing;validation-error",
+        "keyword": "Scenario",
+        "name": "Handle invalid data format",
+        "type": "scenario",
+        "line": 11,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I have an invalid dataset file",
+            "line": 12,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:20"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 450000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 8765
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I upload the file to the processing service",
+            "line": 13,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12000000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 9876
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see a validation error",
+            "line": 14,
+            "match": {
+              "location": "features/step_definitions/data_steps.rb:75"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 1200000,
+              "error_message": "Text 'Invalid format' not found (ScriptError)\n./features/step_definitions/data_steps.rb:78:in `/^I should see a validation error$/'\nfeatures/data_processing.feature:14:in `I should see a validation error'"
+            },
+            "embeddings": [
+              {
+                "mime_type": "image/png",
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIElEQVR42mP8z8DwHwMTYGQkVhEjugJGYhUxEq8IADAlAv0/+RNkAAAAAElFTkSuQmCC"
+              }
+            ],
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:20"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 7654
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 45678
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  },
+  {
+    "uri": "features/api_integration.feature",
+    "id": "api-integration",
+    "keyword": "Feature",
+    "name": "API Integration",
+    "description": "As a developer, I want to integrate with external APIs",
+    "line": 1,
+    "elements": [
+      {
+        "id": "api-integration;fetch-user-data",
+        "keyword": "Scenario",
+        "name": "Fetch user data from API",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "the API is available",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 250000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5432
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I request user data for ID \"12345\"",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1800000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6543
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should receive valid user data",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:45"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 150000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5123
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12345
+            }
+          }
+        ]
+      },
+      {
+        "id": "api-integration;connection-timeout",
+        "keyword": "Scenario",
+        "name": "Handle API connection timeout",
+        "type": "scenario",
+        "line": 10,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "the API is slow to respond",
+            "line": 11,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 350000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5432
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I request user data with a 2 second timeout",
+            "line": 12,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:35"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2100000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6543
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should receive a timeout error",
+            "line": 13,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:52"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 30500000,
+              "error_message": "ConnectionError: Failed to connect to API endpoint at https://api.example.com:443\nConnection timeout after 30 seconds\n./features/support/http_client.rb:45:in `get'\n./features/step_definitions/api_steps.rb:55:in `/^I should receive a timeout error$/'\nfeatures/api_integration.feature:13:in `I should receive a timeout error'"
+            },
+            "embeddings": [
+              {
+                "mime_type": "text/plain",
+                "data": "Request headers:\nGET /api/v1/users/12345 HTTP/1.1\nHost: api.example.com\nAccept: application/json\nAuthorization: Bearer [REDACTED]\n\nResponse: (timeout - no response received)"
+              },
+              {
+                "mime_type": "image/png",
+                "data": "iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAKklEQVR42mNkwAL+MzAwMDKiCzAyo4szMqOLMzKjizMyYxFnJEkcAAAVtAP+GG4/4wAAAABJRU5ErkJggg=="
+              }
+            ],
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5123
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12345
+            }
+          }
+        ]
+      },
+      {
+        "id": "api-integration;rate-limiting",
+        "keyword": "Scenario",
+        "name": "Respect API rate limits",
+        "type": "scenario",
+        "line": 15,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I have exceeded the rate limit",
+            "line": 16,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 200000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5432
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I make another API request",
+            "line": 17,
+            "match": {
+              "location": "features/step_definitions/api_steps.rb:40"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 450000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:25"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6543
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should wait until the rate limit resets",
+            "line": 18,
+            "result": {
+              "status": "undefined"
+            }
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12345
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  },
+  {
+    "uri": "features/notification_system.feature",
+    "id": "notification-system",
+    "keyword": "Feature",
+    "name": "Notification System",
+    "description": "As a user, I want to receive timely notifications",
+    "line": 1,
+    "elements": [
+      {
+        "id": "notification-system;email-notification",
+        "keyword": "Scenario",
+        "name": "Send email notification on event",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "a significant event occurs",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/notification_steps.rb:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 180000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:30"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 4321
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "the notification service processes the event",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/notification_steps.rb:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 950000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:30"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5432
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "an email should be sent to the user",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/notification_steps.rb:42"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 3200000,
+              "error_message": "FAIL: Expected email to be sent but mail queue is empty\nChecked mail server: smtp.example.com:587\nLast successful email sent: 2 hours ago (ScriptError)\n./features/step_definitions/notification_steps.rb:45:in `/^an email should be sent to the user$/'\nfeatures/notification_system.feature:8:in `an email should be sent to the user'"
+            },
+            "embeddings": [
+              {
+                "mime_type": "text/plain",
+                "data": "Mail Queue Status:\nTotal queued: 0\nTotal sent (last hour): 0\nTotal failed (last hour): 3\n\nSMTP Server Response:\n550 Mailbox unavailable - Recipient rejected"
+              }
+            ],
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:30"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6789
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 34567
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  },
+  {
+    "uri": "features/profile_management.feature",
+    "id": "profile-management",
+    "keyword": "Feature",
+    "name": "Profile Management",
+    "description": "As a user, I want to manage my profile information",
+    "line": 1,
+    "elements": [
+      {
+        "id": "profile-management;view-profile",
+        "keyword": "Scenario",
+        "name": "View user profile",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am logged in",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 850000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6789
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I navigate to my profile page",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1250000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 7234
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see my profile information",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:35"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 450000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6123
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18765
+            }
+          }
+        ]
+      },
+      {
+        "id": "profile-management;update-email",
+        "keyword": "Scenario",
+        "name": "Update email address",
+        "type": "scenario",
+        "line": 10,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on my profile page",
+            "line": 11,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 920000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6789
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I update my email to \"newemail@example.com\"",
+            "line": 12,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1850000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 7456
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see a success message",
+            "line": 13,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:58"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 380000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6234
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "And ",
+            "name": "my email should be updated",
+            "line": 14,
+            "match": {
+              "location": "features/step_definitions/profile_steps.rb:65"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 520000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:18"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6789
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:8"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18765
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  },
+  {
+    "uri": "features/search_functionality.feature",
+    "id": "search-functionality",
+    "keyword": "Feature",
+    "name": "Search Functionality",
+    "description": "As a user, I want to search for content efficiently",
+    "line": 1,
+    "elements": [
+      {
+        "id": "search-functionality;basic-search",
+        "keyword": "Scenario",
+        "name": "Perform basic search",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on the search page",
+            "line": 6,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 650000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5876
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I search for \"test query\"",
+            "line": 7,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2100000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6234
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see search results",
+            "line": 8,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:38"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 750000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5987
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15432
+            }
+          }
+        ]
+      },
+      {
+        "id": "search-functionality;filter-results",
+        "keyword": "Scenario",
+        "name": "Filter search results",
+        "type": "scenario",
+        "line": 10,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I have search results displayed",
+            "line": 11,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:18"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1200000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5876
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I apply a category filter",
+            "line": 12,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:45"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 850000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6123
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see only filtered results",
+            "line": 13,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:58"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 620000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5987
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15432
+            }
+          }
+        ]
+      },
+      {
+        "id": "search-functionality;empty-results",
+        "keyword": "Scenario",
+        "name": "Handle empty search results",
+        "type": "scenario",
+        "line": 15,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I am on the search page",
+            "line": 16,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 650000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5876
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "When ",
+            "name": "I search for \"nonexistentquery123\"",
+            "line": 17,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1800000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 6234
+                }
+              }
+            ]
+          },
+          {
+            "keyword": "Then ",
+            "name": "I should see a no results message",
+            "line": 18,
+            "match": {
+              "location": "features/step_definitions/search_steps.rb:65"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 380000
+            },
+            "after": [
+              {
+                "match": {
+                  "location": "features/support/hooks.rb:22"
+                },
+                "result": {
+                  "status": "passed",
+                  "duration": 5987
+                }
+              }
+            ]
+          }
+        ],
+        "before": [
+          {
+            "match": {
+              "location": "features/support/hooks.rb:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15432
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  }
+]

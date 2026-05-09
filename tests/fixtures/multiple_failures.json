@@ -1,0 +1,135 @@
+[
+  {
+    "uri": "features/checkout.feature",
+    "id": "checkout-feature",
+    "name": "Checkout Process",
+    "keyword": "Feature",
+    "line": 1,
+    "description": "Test checkout functionality",
+    "elements": [
+      {
+        "id": "scenario-1",
+        "name": "Add item to cart",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I add an item to cart",
+            "line": 6,
+            "result": {
+              "status": "passed",
+              "duration": 500000000
+            },
+            "match": {
+              "location": "steps/checkout.rb:10"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-2",
+        "name": "View cart contents",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 8,
+        "steps": [
+          {
+            "keyword": "Then ",
+            "name": "I should see the cart",
+            "line": 9,
+            "result": {
+              "status": "failed",
+              "duration": 300000000,
+              "error_message": "Cart not visible"
+            },
+            "match": {
+              "location": "steps/checkout.rb:15"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-3",
+        "name": "Update item quantity",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 11,
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I update quantity",
+            "line": 12,
+            "result": {
+              "status": "passed",
+              "duration": 400000000
+            },
+            "match": {
+              "location": "steps/checkout.rb:20"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-4",
+        "name": "Proceed to payment",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 14,
+        "steps": [
+          {
+            "keyword": "When ",
+            "name": "I proceed to payment",
+            "line": 15,
+            "result": {
+              "status": "failed",
+              "duration": 600000000,
+              "error_message": "Payment gateway error"
+            },
+            "match": {
+              "location": "steps/checkout.rb:25"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      },
+      {
+        "id": "scenario-5",
+        "name": "Order confirmation",
+        "keyword": "Scenario",
+        "type": "scenario",
+        "line": 17,
+        "steps": [
+          {
+            "keyword": "Then ",
+            "name": "I should see confirmation",
+            "line": 18,
+            "result": {
+              "status": "passed",
+              "duration": 200000000
+            },
+            "match": {
+              "location": "steps/checkout.rb:30"
+            }
+          }
+        ],
+        "tags": [],
+        "before": [],
+        "after": []
+      }
+    ],
+    "tags": []
+  }
+]

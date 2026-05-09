@@ -1,0 +1,58 @@
+[
+  {
+    "uri": "features/calculator.feature",
+    "id": "calculator",
+    "keyword": "Feature",
+    "name": "Calculator",
+    "description": "Basic calculator operations",
+    "line": 1,
+    "elements": [
+      {
+        "id": "calculator;addition",
+        "keyword": "Scenario",
+        "name": "Add two numbers",
+        "type": "scenario",
+        "line": 5,
+        "steps": [
+          {
+            "keyword": "Given ",
+            "name": "I have entered 5 into the calculator",
+            "line": 6,
+            "result": {
+              "status": "passed",
+              "duration": 100000
+            }
+          },
+          {
+            "keyword": "And ",
+            "name": "I have entered 3 into the calculator",
+            "line": 7,
+            "result": {
+              "status": "passed",
+              "duration": 100000
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "I press add",
+            "line": 8,
+            "result": {
+              "status": "passed",
+              "duration": 200000
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "the result should be 8",
+            "line": 9,
+            "result": {
+              "status": "passed",
+              "duration": 150000
+            }
+          }
+        ]
+      }
+    ],
+    "tags": []
+  }
+]
