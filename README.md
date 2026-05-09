@@ -1,5 +1,8 @@
 # Test Report Vibes
 
+<img width="150" src="https://github.com/user-attachments/assets/2d347d22-b88e-472f-8416-595caaed4524" />
+
+
 **Deterministic HTML summaries of Cucumber test reports.**
 
 `test-report-vibes` turns Cucumber JSON output into a focused, self-contained HTML report so you can quickly review what failed and why.
