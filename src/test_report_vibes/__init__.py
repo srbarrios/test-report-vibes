@@ -1,6 +1,6 @@
 """Test Report Vibes - deterministic HTML summaries of Cucumber test reports."""
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__ = "Test Report Vibes Contributors"
 __description__ = "Deterministic HTML summaries of Cucumber test reports"
 

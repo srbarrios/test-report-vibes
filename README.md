@@ -17,6 +17,12 @@
 
 ## Installation
 
+From PyPI:
+
+```bash
+pip install test-report-vibes
+```
+
 From source:
 
 ```bash
