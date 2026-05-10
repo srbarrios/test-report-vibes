@@ -22,6 +22,7 @@ SLOW_STEPS = Path(__file__).parent / "fixtures" / "slow_steps.json"
 WITH_SCREENSHOTS = Path(__file__).parent / "fixtures" / "with_screenshots.json"
 MIXED_SCENARIOS = Path(__file__).parent / "fixtures" / "mixed_scenarios.json"
 MULTIPLE_FAILURES = Path(__file__).parent / "fixtures" / "multiple_failures.json"
+MIXED_TAGS_PRIORITY = Path(__file__).parent / "fixtures" / "mixed_tags_priority.json"
 
 
 def _load_features(path: Path = SAMPLE_REPORT):
@@ -259,3 +260,57 @@ class TestGroupIssuesByFeature:
 
         # Verify failed_scenario_count only counts scenarios with failures
         assert groups[0]["failed_scenario_count"] == 2  # 2 failing scenarios (2 and 4)
+
+
+class TestNeedsReviewFirstCard:
+    def _summary(self, fixture=MIXED_TAGS_PRIORITY):
+        features = _load_features(fixture)
+        stats = calculate_summary_stats(features)
+        groups = group_issues_by_feature(filter_issues(features))
+        return build_default_executive_summary(stats, groups)
+
+    def test_card_present_with_mixed_tags(self):
+        summary = self._summary()
+        assert "Needs review first" in summary
+
+    def test_excludes_bug_reported_and_test_issue(self):
+        summary = self._summary()
+        assert "Search Feature" not in summary.split("Needs review first")[1].split("</div>")[0]
+        assert "User Profile" not in summary.split("Needs review first")[1].split("</div>")[0]
+
+    def test_includes_untagged_features(self):
+        summary = self._summary()
+        card = summary.split("Needs review first")[1].split("</div>")[0]
+        assert "Checkout Flow" in card
+
+    def test_includes_new_issue_and_flaky_and_debugging(self):
+        summary = self._summary()
+        card = summary.split("Needs review first")[1].split("</div>")[0]
+        assert "Login Page" in card
+        assert "Shopping Cart" in card
+        assert "Dashboard Analytics" in card
+
+    def test_not_reported_features_appear_first(self):
+        summary = self._summary()
+        card = summary.split("Needs review first")[1].split("</div>")[0]
+        checkout_pos = card.index("Checkout Flow")
+        login_pos = card.index("Login Page")
+        cart_pos = card.index("Shopping Cart")
+        assert checkout_pos < login_pos
+        assert checkout_pos < cart_pos
+
+    def test_shows_status_pills(self):
+        summary = self._summary()
+        card = summary.split("Needs review first")[1].split("</div>")[0]
+        assert "Not reported" in card
+        assert "New and reported" in card
+        assert "Flaky Test" in card
+
+    def test_card_shown_for_untagged_features(self):
+        """Sample report has no tags — all features should appear in the card."""
+        summary = self._summary(SAMPLE_REPORT)
+        assert "Needs review first" in summary
+
+    def test_card_hidden_when_all_passing(self):
+        summary = self._summary(ALL_PASSING)
+        assert "Needs review first" not in summary

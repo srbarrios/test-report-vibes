@@ -103,6 +103,12 @@ When classification is enabled (default), statuses are derived from tags in this
 - `@flaky` -> `Flaky Test`
 - no match -> `Not reported`
 
+## Sample Report
+
+Check out a live example of the generated report:
+
+[View Sample Report](https://srbarrios.github.io/test-report-vibes/examples/sample_report_with_classifiers.html)
+
 ## Development
 
 Install dev dependencies:

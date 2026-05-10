@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Report - 2026-05-10 09:40:45</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --color-error: #ef4444;
+            --color-warning: #f59e0b;
+            --color-success: #10b981;
+            --color-info: #3b82f6;
+            --color-skipped: #9ca3af;
+            --color-bg: #f9fafb;
+            --color-surface: #ffffff;
+            --color-text: #1f2937;
+            --color-text-light: #6b7280;
+            --color-border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+                         'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+            padding: 2rem 1rem;
+        }
+
+        .container { max-width: 100%; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            font-size: 2rem; font-weight: 700;
+            color: var(--color-text); margin-bottom: 0.5rem;
+        }
+        .header .meta { color: var(--color-text-light); font-size: 0.875rem; margin-bottom: 1.5rem; }
+        .header .meta p { margin: 0.25rem 0; }
+
+        .stats-dashboard { margin-top: 1.5rem; }
+        .stats-summary-row {
+            display: flex; align-items: baseline;
+            gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;
+        }
+        .stats-summary-row .big-number {
+            font-size: 2.5rem; font-weight: 800;
+            color: var(--color-text); line-height: 1;
+        }
+        .stats-summary-row .big-label {
+            font-size: 0.875rem; color: var(--color-text-light); font-weight: 500;
+        }
+
+        .pct-bar-container { margin-bottom: 0.75rem; }
+        .pct-bar {
+            display: flex; height: 18px; border-radius: 9px;
+            overflow: hidden; background: var(--color-border);
+        }
+        .pct-bar .segment { transition: width 0.4s ease; min-width: 0; }
+        .pct-bar .segment.passed  { background: var(--color-success); }
+        .pct-bar .segment.failed  { background: var(--color-error); }
+        .pct-bar .segment.skipped { background: var(--color-skipped); }
+
+        .pct-legend {
+            display: flex; flex-wrap: wrap; gap: 1.25rem;
+            margin-top: 0.5rem; font-size: 0.8125rem; color: var(--color-text-light);
+        }
+        .pct-legend span::before {
+            content: ''; display: inline-block;
+            width: 10px; height: 10px; border-radius: 2px;
+            margin-right: 4px; vertical-align: middle;
+        }
+        .pct-legend .l-passed::before  { background: var(--color-success); }
+        .pct-legend .l-failed::before  { background: var(--color-error); }
+        .pct-legend .l-skipped::before { background: var(--color-skipped); }
+
+        /* Main */
+        main {
+            background: var(--color-surface);
+            padding: 2rem; border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        main h2 {
+            font-size: 1.75rem; font-weight: 700;
+            color: var(--color-text); margin-bottom: 1rem;
+            padding-bottom: 0.5rem; border-bottom: 2px solid var(--color-border);
+        }
+        main h3 { font-size: 1.375rem; font-weight: 600; color: var(--color-text); margin-top: 1rem; margin-bottom: 0.5rem; }
+        main h4 { font-size: 1.0625rem; font-weight: 600; color: var(--color-text); margin-top: 1rem; margin-bottom: 0.5rem; }
+        main p  { margin-bottom: 1rem; line-height: 1.7; }
+
+        section { margin-bottom: 2rem; }
+
+        /* Executive summary cards */
+        section.executive-summary { padding: 0.5rem 0 0; }
+        section.executive-summary .exec-title {
+            color: var(--color-text);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.75rem 0;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--color-border);
+        }
+        section.executive-summary .exec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        section.executive-summary .exec-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            color: var(--color-text);
+        }
+        section.executive-summary .exec-card h3 {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            color: var(--color-text);
+        }
+        section.executive-summary .exec-card p,
+        section.executive-summary .exec-card li {
+            color: var(--color-text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0 0 0.25rem 0;
+        }
+        section.executive-summary .exec-card ol,
+        section.executive-summary .exec-card ul {
+            margin: 0.25rem 0 0 1.25rem;
+            padding: 0;
+        }
+        section.executive-summary .exec-headline {
+            grid-column: 1 / -1;
+            background: var(--color-surface);
+            border-left: 4px solid var(--color-error);
+        }
+        section.executive-summary .exec-headline.exec-success {
+            border-left-color: var(--color-success);
+        }
+        section.executive-summary .exec-warn {
+            border-left: 4px solid var(--color-warning);
+        }
+        section.executive-summary .exec-list { list-style: none; margin-left: 0; }
+        section.executive-summary .exec-list li {
+            padding: 0.25rem 0;
+            border-bottom: 1px dashed var(--color-border);
+        }
+        section.executive-summary .exec-list li:last-child { border-bottom: none; }
+        section.executive-summary .exec-count {
+            display: inline-block;
+            background: var(--color-error);
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.05rem 0.45rem;
+            border-radius: 999px;
+            margin-right: 0.35rem;
+        }
+        section.executive-summary .exec-muted {
+            color: var(--color-text-light);
+            font-size: 0.8125rem;
+        }
+        section.executive-summary .exec-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        section.executive-summary .exec-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 999px;
+            padding: 0.15rem 0.6rem;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+        section.executive-summary code {
+            background: var(--color-surface);
+            padding: 0.1rem 0.35rem;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.8125rem;
+            color: var(--color-text);
+        }
+
+        article.issue {
+            background: var(--color-bg);
+            padding: 0.5rem; margin-bottom: 0.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+        }
+
+        .feature-header h3 {
+            margin: 0;
+            flex: 1;
+        }
+
+        .toggle-all-scenarios {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        .toggle-all-scenarios:hover {
+            background: var(--color-border);
+            border-color: var(--color-text-light);
+        }
+
+        .toggle-all-scenarios .toggle-icon {
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+
+        .toggle-all-scenarios.expanded .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .scenarios-container {
+            display: block;
+        }
+
+        .scenarios-container.hidden {
+            display: none;
+        }
+
+        .issue-meta p { margin-bottom: 0.35rem; }
+
+        code {
+            color: black;
+            padding: 0.2rem 0.5rem; border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        /* Tag badges */
+        .badge {
+            display: inline-block; padding: 0.15rem 0.5rem;
+            border-radius: 4px; font-size: 0.6875rem;
+            font-weight: 600; text-transform: uppercase;
+            color: white; white-space: nowrap;
+        }
+        .badge.failed    { background: var(--color-error); }
+        .badge.undefined { background: var(--color-warning); }
+        .badge.pending   { background: var(--color-info); }
+        .badge.muted     { background: var(--color-text-light); }
+
+        .tags-list {
+            display: flex; flex-wrap: wrap;
+            gap: 0.4rem; list-style: none;
+            margin: 0 0 0.75rem 0; padding: 0;
+        }
+        .tags-list li { margin: 0; }
+        .tags-list .badge { background: var(--color-text-light); }
+
+        /* Native <details> scenario block */
+        details.scenario-block {
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            background: var(--color-surface);
+            overflow: hidden;
+        }
+
+        details.scenario-block.scenario-failed {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        details.scenario-block > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 0.6rem 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--color-bg);
+            user-select: none;
+            transition: background 0.15s;
+        }
+
+        details.scenario-block.scenario-failed > summary {
+            background: #fee2e2;
+        }
+        details.scenario-block > summary::-webkit-details-marker { display: none; }
+        details.scenario-block > summary::before {
+            content: "▶";
+            font-size: 0.7rem;
+            color: var(--color-text-light);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+        details.scenario-block[open] > summary::before { transform: rotate(90deg); }
+        details.scenario-block > summary:hover { background: var(--color-border); }
+        details.scenario-block.scenario-failed > summary:hover { background: #fecaca; }
+
+        .scenario-summary-name {
+            flex: 1;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .scenario-summary-name .scenario-keyword {
+            color: var(--color-text-light);
+            font-weight: 400;
+            margin-right: 0.25rem;
+        }
+
+        .scenario-body-inner { padding: 0.75rem 1rem 1rem; background-color: white; }
+
+        .scenario-steps-list {
+            list-style: none; margin: 0; padding: 0;
+            border: 1px solid var(--color-border);
+            border-radius: 6px; overflow: hidden;
+        }
+        .scenario-steps-list > li { margin: 0; border-bottom: 1px solid var(--color-border); }
+        .scenario-steps-list > li:last-child { border-bottom: none; }
+
+        .step-content {
+            display: flex; align-items: flex-start;
+            gap: 0.625rem; padding: 0.5rem 0.75rem;
+            font-size: 0.9rem; line-height: 1.5;
+        }
+
+        .step-status-icon {
+            flex-shrink: 0; width: 1.25rem; height: 1.25rem;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+            color: white; margin-top: 0.15rem;
+        }
+        .step-status-icon.passed    { background: var(--color-success); }
+        .step-status-icon.failed    { background: var(--color-error); }
+        .step-status-icon.skipped   { background: var(--color-skipped); }
+        .step-status-icon.undefined { background: var(--color-warning); }
+        .step-status-icon.pending   { background: var(--color-info); }
+
+        .step-text { flex: 1; min-width: 0; }
+        .step-text .step-keyword { font-weight: 700; color: var(--color-text-light); margin-right: 0.25rem; }
+        .step-text .step-duration { color: var(--color-text-light); font-size: 0.8125rem; margin-left: 0.5rem; }
+        .step-text .step-location {
+            display: block; color: var(--color-text-light);
+            font-size: 0.75rem;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            margin-top: 0.15rem;
+        }
+
+        .step-error-detail {
+            background: #fef2f2; color: var(--color-error);
+            padding: 0.75rem 1rem 0.75rem 2.625rem;
+            margin: 0;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.8125rem;
+            white-space: pre-wrap; word-break: break-word;
+            border-top: 1px solid #fecaca;
+        }
+
+        .step-embedded-content {
+            padding: 0.5rem 0.75rem 0.5rem 2.625rem;
+            border-top: 1px solid var(--color-border);
+            background: var(--color-bg);
+        }
+        .step-embedded-content img {
+            max-width: 100%; height: auto;
+            border: 2px solid var(--color-border);
+            border-radius: 8px; margin: 0.5rem 0;
+            box-shadow: var(--shadow-md); display: block;
+        }
+
+        .scenario-counts {
+            display: inline-flex; gap: 0.35rem;
+            margin-left: 0.5rem; flex-shrink: 0;
+        }
+
+        footer {
+            margin-top: 3rem; padding: 2rem;
+            text-align: center; color: var(--color-text-light); font-size: 0.875rem;
+        }
+
+        /* Classification summary */
+        section.classification-summary {
+            background: var(--color-surface);
+            border: 2px solid var(--color-border);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        section.classification-summary h2 {
+            font-size: 1.375rem;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+        section.classification-summary h3 {
+            font-size: 1.0625rem;
+            margin-top: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        section.classification-summary ul {
+            margin-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        section.classification-summary li {
+            margin-bottom: 0.35rem;
+        }
+        .cls-breakdown {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .cls-pill {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem 0.5rem; }
+            .header, main { padding: 1.5rem; }
+            .header h1 { font-size: 1.5rem; }
+        }
+
+        @media print {
+            body { background: white; }
+            .header, main { box-shadow: none; }
+            article.issue { break-inside: avoid; }
+            details.scenario-block > summary::before { content: ""; }
+            details.scenario-block:not([open]) > summary { background: transparent; }
+            details.scenario-block .scenario-body-inner { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Test Report Vibes</h1>
+            <div class="meta">
+                <p><strong>Generated:</strong> 2026-05-10 09:40:45</p>
+            </div>
+
+            <div class="stats-dashboard">
+                <div class="stats-summary-row">
+                    <div>
+                        <span class="big-number">7</span>
+                        <span class="big-label"> features</span>
+                    </div>
+                </div>
+
+                <div class="pct-bar-container">
+                    <div class="pct-bar">
+                        <div class="segment passed" style="width:28.6%;" title="Passed: 28.6%"></div>
+                        <div class="segment failed" style="width:71.4%;" title="Failed: 71.4%"></div>
+                    </div>
+                    <div class="pct-legend">
+                        <span class="l-passed">Passed 2 (28.6%)</span>
+                        <span class="l-failed">Failed 5 (71.4%)</span>
+                        <span class="l-skipped">Skipped 0 (0.0%)</span>
+                    </div>
+                </div>
+                <section class="executive-summary"><h2 class="exec-title">Where to pay attention</h2><div class="exec-grid"><div class="exec-card exec-headline"><p><strong>5</strong> of <strong>7</strong> features failed (71.4%), accounting for <strong>8</strong> of <strong>17</strong> scenarios.</p></div><div class="exec-card"><h3>🎯 Most impacted features</h3><ol><li><strong>API Integration</strong> &mdash; 2 failing scenarios</li><li><strong>Notification System</strong> &mdash; 2 failing scenarios</li><li><strong>User Authentication</strong> &mdash; 2 failing scenarios</li><li><strong>Data Processing Pipeline</strong> &mdash; 1 failing scenario</li><li><strong>Search Functionality</strong> &mdash; 1 failing scenario</li></ol></div><div class="exec-card"><h3>🔍 Needs review first</h3><p class='exec-muted'>Features not yet tracked as bugs or test issues, sorted by review priority and impact.</p><ol><li><strong>Data Processing Pipeline</strong> &mdash; 1 failing scenario <span class='cls-pill' style='background:#9cf3af;'>New and reported</span></li><li><strong>Notification System</strong> &mdash; 2 failing scenarios <span class='cls-pill' style='background:#f59e0b;'>Flaky Test</span></li></ol></div><div class="exec-card"><h3>🏷️ Top error types</h3><div class='exec-pills'><span class='exec-pill'>ConnectionError <span class='exec-count'>×1</span></span><span class='exec-pill'>AssertionError <span class='exec-count'>×1</span></span></div></div><div class="exec-card exec-warn"><h3>⚙️ Framework gaps</h3><div style='margin-bottom:0.5rem;'><strong>Undefined steps:</strong> <span class='exec-count'>×1</span><p class='exec-muted' style='margin:0.25rem 0 0 0;'>Missing step definitions</p><ul class='exec-list' style='font-size:0.85rem;'><li>API Integration <span class='exec-count'>×1</span></li></ul></div><div><strong>Pending steps:</strong> <span class='exec-count'>×1</span><p class='exec-muted' style='margin:0.25rem 0 0 0;'>Marked as TODO</p><ul class='exec-list' style='font-size:0.85rem;'><li>Notification System <span class='exec-count'>×1</span></li></ul></div></div><div class="exec-card"><h3>🐢 Slowest failing scenarios</h3><p class='exec-muted'>Long-running failures often signal timeouts or infrastructure issues.</p><ul class='exec-list'><li><code>60.3s</code> <strong>Login timeout after prolonged inactivity</strong> <span class='exec-muted'>in User Authentication</span></li><li><code>0.0s</code> <strong>Handle API connection timeout</strong> <span class='exec-muted'>in API Integration</span></li><li><code>0.0s</code> <strong>Upload and process batch data</strong> <span class='exec-muted'>in Data Processing Pipeline</span></li></ul></div><div class="exec-card"><h3>⏱️ Slowest failing steps</h3><p class='exec-muted'>Individual steps with longest execution times</p><ul class='exec-list'><li><code>60.0s</code> <strong>Then </strong>I should see a session timeout message <span class='exec-muted'>in User Authentication / Login timeout after prolonged inactivity</span></li></ul></div></div></section>
+            </div>
+        </header>
+
+        <main>
+
+            <section class="classification-summary">
+<h2>Classified features</h2>
+<p><strong>Failed Features:</strong> 5</p>
+<p><strong>Failed Scenarios:</strong> 8</p>
+<p style="margin-bottom:0.25rem;color:var(--color-text-light);font-size:0.875rem;">The first failing scenario in each feature is usually the most important to review, later failures may cascade from it.</p>
+<ul><li><strong>API Integration</strong><ul><li><span class="cls-pill" style="background:#8989ff;">Test Framework issue</span> Handle API connection timeout</li></ul></li>
+<li><strong>Notification System</strong><ul><li><span class="cls-pill" style="background:#f59e0b;">Flaky Test</span> Send email notification on event</li></ul></li>
+<li><strong>User Authentication</strong><ul><li><span class="cls-pill" style="background:#ef0000;">Bug reported</span> Failed login with invalid password</li></ul></li>
+<li><strong>Data Processing Pipeline</strong><ul><li><span class="cls-pill" style="background:#9cf3af;">New and reported</span> Handle invalid data format</li></ul></li>
+<li><strong>Search Functionality</strong><ul><li><span class="cls-pill" style="background:#ef0000;">Bug reported</span> Apply advanced search filters</li></ul></li></ul>
+</section>
+
+            <section class="issues">
+                <h2>Failing Features</h2>
+
+                <article class="issue" data-feature-index="0">
+                    <div class="feature-header">
+                        <h3>API Integration</h3>
+                    </div>
+
+                    <div class="issue-meta">
+                        <p><strong>Feature:</strong> <code>features/api_integration.feature</code></p>
+                        <p><strong>Description:</strong> As a developer, I want to integrate with external APIs</p>
+                    </div>
+
+                    <button class="toggle-all-scenarios" onclick="toggleAllScenarios(0)" title="Show/Hide scenarios">
+                        <span class="toggle-icon">▶</span> <span class="toggle-text">Show scenarios</span>
+                    </button>
+                        
+                    <div class="scenarios-container hidden">
+                    <details class="scenario-block">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Fetch user data from API
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>the API is available
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:12</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I request user data for ID &#34;12345&#34;
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:28</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should receive valid user data
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:45</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Handle API connection timeout
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>the API is slow to respond
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:18</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I request user data with a 2 second timeout
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:35</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should receive a timeout error
+                                            <span class="step-duration">[0.03s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:52</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">ConnectionError: Failed to connect to API endpoint at https://api.example.com:443
+Connection timeout after 30 seconds
+./features/support/http_client.rb:45:in `get&#39;
+./features/step_definitions/api_steps.rb:55:in `/^I should receive a timeout error$/&#39;
+features/api_integration.feature:13:in `I should receive a timeout error&#39;</pre>
+                                </li>
+                            </ol>
+
+                            <div class="step-embedded-content">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAKklEQVR42mNkwAL+MzAwMDKiCzAyo4szMqOLMzKjizMyYxFnJEkcAAAVtAP+GG4/4wAAAABJRU5ErkJggg==" alt="Screenshot">
+                            </div>
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Respect API rate limits
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I have exceeded the rate limit
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:22</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I make another API request
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/api_steps.rb:40</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon undefined">○</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should wait until the rate limit resets
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    </div>
+                </article>
+                <article class="issue" data-feature-index="1">
+                    <div class="feature-header">
+                        <h3>Notification System</h3>
+                    </div>
+
+                    <div class="issue-meta">
+                        <p><strong>Feature:</strong> <code>features/notification_system.feature</code></p>
+                        <p><strong>Description:</strong> As a user, I want to receive timely notifications</p>
+                    </div>
+
+                    <button class="toggle-all-scenarios" onclick="toggleAllScenarios(1)" title="Show/Hide scenarios">
+                        <span class="toggle-icon">▶</span> <span class="toggle-text">Show scenarios</span>
+                    </button>
+                        
+                    <div class="scenarios-container hidden">
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Send email notification on event
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>a significant event occurs
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/notification_steps.rb:15</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>the notification service processes the event
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/notification_steps.rb:28</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>an email should be sent to the user
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/notification_steps.rb:42</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">FAIL: Expected email to be sent but mail queue is empty
+Checked mail server: smtp.example.com:587
+Last successful email sent: 2 hours ago (ScriptError)
+./features/step_definitions/notification_steps.rb:45:in `/^an email should be sent to the user$/&#39;
+features/notification_system.feature:8:in `an email should be sent to the user&#39;</pre>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Send push notification to mobile device
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>a user has enabled push notifications
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/notification_steps.rb:18</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>an important alert is triggered
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/notification_steps.rb:32</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon pending">○</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>a push notification should be delivered
+                                            <span class="step-duration">[0.00s]</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    </div>
+                </article>
+                <article class="issue" data-feature-index="2">
+                    <div class="feature-header">
+                        <h3>User Authentication</h3>
+                    </div>
+
+                    <div class="issue-meta">
+                        <p><strong>Feature:</strong> <code>features/authentication.feature</code></p>
+                        <p><strong>Description:</strong> As a user, I want to authenticate securely to access the system</p>
+                    </div>
+
+                    <button class="toggle-all-scenarios" onclick="toggleAllScenarios(2)" title="Show/Hide scenarios">
+                        <span class="toggle-icon">▶</span> <span class="toggle-text">Show scenarios</span>
+                    </button>
+                        
+                    <div class="scenarios-container hidden">
+                    <details class="scenario-block">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Successful login with valid credentials
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I am on the login page
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:10</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I enter valid credentials
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:25</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should be logged in successfully
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:42</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Failed login with invalid password
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I am on the login page
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:10</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I enter invalid password
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:30</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should see an error message
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:50</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">AssertionError: Expected error message not found
+Expected: &#39;Invalid credentials&#39;
+Actual: &#39;Server Error 500&#39;
+./features/step_definitions/auth_steps.rb:52:in `/^I should see an error message$/&#39;
+features/authentication.feature:13:in `I should see an error message&#39;</pre>
+                                </li>
+                            </ol>
+
+                            <div class="step-embedded-content">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Screenshot">
+                            </div>
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Login timeout after prolonged inactivity
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I am on the login page
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:10</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I wait for 5 minutes
+                                            <span class="step-duration">[0.30s]</span>
+                                            <span class="step-location">features/step_definitions/common_steps.rb:100</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should see a session timeout message
+                                            <span class="step-duration">[60.00s]</span>
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:65</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">execution expired (Timeout::Error)
+./features/support/commonlib.rb:89:in `repeat_until_timeout&#39;
+./features/step_definitions/auth_steps.rb:67:in `/^I should see a session timeout message$/&#39;
+features/authentication.feature:18:in `I should see a session timeout message&#39;</pre>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon skipped">○</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">And </span>I should be redirected to login page
+                                            <span class="step-location">features/step_definitions/auth_steps.rb:72</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                            <div class="step-embedded-content">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR42mNk+M/wn4EIwMiIJwAAJV8D/T3lRRcAAAAASUVORK5CYII=" alt="Screenshot">
+                            </div>
+                        </div>
+                    </details>
+                    </div>
+                </article>
+                <article class="issue" data-feature-index="3">
+                    <div class="feature-header">
+                        <h3>Data Processing Pipeline</h3>
+                    </div>
+
+                    <div class="issue-meta">
+                        <p><strong>Feature:</strong> <code>features/data_processing.feature</code></p>
+                        <p><strong>Description:</strong> As a data analyst, I want to process large datasets efficiently</p>
+                    </div>
+
+                    <button class="toggle-all-scenarios" onclick="toggleAllScenarios(3)" title="Show/Hide scenarios">
+                        <span class="toggle-icon">▶</span> <span class="toggle-text">Show scenarios</span>
+                    </button>
+                        
+                    <div class="scenarios-container hidden">
+                    <details class="scenario-block">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Upload and process batch data
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I have a valid dataset file
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:15</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I upload the file to the processing service
+                                            <span class="step-duration">[0.01s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:30</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>the data should be processed successfully
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:50</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">And </span>I should receive a confirmation notification
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:68</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Handle invalid data format
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I have an invalid dataset file
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:20</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I upload the file to the processing service
+                                            <span class="step-duration">[0.01s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:30</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should see a validation error
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/data_steps.rb:75</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">Text &#39;Invalid format&#39; not found (ScriptError)
+./features/step_definitions/data_steps.rb:78:in `/^I should see a validation error$/&#39;
+features/data_processing.feature:14:in `I should see a validation error&#39;</pre>
+                                </li>
+                            </ol>
+
+                            <div class="step-embedded-content">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAIElEQVR42mP8z8DwHwMTYGQkVhEjugJGYhUxEq8IADAlAv0/+RNkAAAAAElFTkSuQmCC" alt="Screenshot">
+                            </div>
+                        </div>
+                    </details>
+                    </div>
+                </article>
+                <article class="issue" data-feature-index="4">
+                    <div class="feature-header">
+                        <h3>Search Functionality</h3>
+                    </div>
+
+                    <div class="issue-meta">
+                        <p><strong>Feature:</strong> <code>features/search_functionality.feature</code></p>
+                        <p><strong>Description:</strong> As a user, I want to search for content efficiently</p>
+                    </div>
+
+                    <button class="toggle-all-scenarios" onclick="toggleAllScenarios(4)" title="Show/Hide scenarios">
+                        <span class="toggle-icon">▶</span> <span class="toggle-text">Show scenarios</span>
+                    </button>
+                        
+                    <div class="scenarios-container hidden">
+                    <details class="scenario-block">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Search with basic keyword
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I am on the search page
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:10</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I enter &#34;example keyword&#34; in the search box
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:22</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>I should see relevant search results
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:38</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
+
+                        </div>
+                    </details>
+                    <details class="scenario-block scenario-failed">
+                        <summary>
+                            <span class="scenario-summary-name">
+                                <span class="scenario-keyword">Scenario:</span>Apply advanced search filters
+                            </span>
+                        </summary>
+
+                        <div class="scenario-body-inner">
+
+                            <ol class="scenario-steps-list" aria-label="Steps">
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Given </span>I am on the search page
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:10</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">When </span>I apply date range and category filters
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:28</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon passed">✓</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">And </span>I perform a search
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:46</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="step-content">
+                                        <span class="step-status-icon failed">✗</span>
+                                        <div class="step-text">
+                                            <span class="step-keyword">Then </span>the results should match all applied filters
+                                            <span class="step-duration">[0.00s]</span>
+                                            <span class="step-location">features/step_definitions/search_steps.rb:58</span>
+                                        </div>
+                                    </div>
+                                    <pre class="step-error-detail">Filter mismatch: Expected results to match date range 2024-01-01 to 2024-12-31
+Found 5 results outside the specified range (ScriptError)
+./features/step_definitions/search_steps.rb:62:in `/^the results should match all applied filters$/&#39;
+features/search_functionality.feature:14:in `the results should match all applied filters&#39;</pre>
+                                </li>
+                            </ol>
+
+                            <div class="step-embedded-content">
+                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAKUlEQVR42mP8z8DwnwEMGBkZGRkYGBgYGBkY0MUZGdHFGRnRxRmJVQQAFVAD/f+QR5IAAAAASUVORK5CYII=" alt="Screenshot">
+                            </div>
+                        </div>
+                    </details>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <footer>
+            <p>Generated by <strong>test-report-vibes</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAllScenarios(featureIndex) {
+            const article = document.querySelector(`article.issue[data-feature-index="${featureIndex}"]`);
+            const button = article.querySelector('.toggle-all-scenarios');
+            const scenariosContainer = article.querySelector('.scenarios-container');
+            const scenarioDetails = article.querySelectorAll('details.scenario-block');
+
+            // Toggle visibility of scenarios container
+            const isHidden = scenariosContainer.classList.contains('hidden');
+
+            if (isHidden) {
+                // Show scenarios and expand only failed details
+                scenariosContainer.classList.remove('hidden');
+                scenarioDetails.forEach(detail => {
+                    detail.open = detail.classList.contains('scenario-failed');
+                });
+                button.classList.add('expanded');
+                button.querySelector('.toggle-icon').textContent = '▼';
+                button.querySelector('.toggle-text').textContent = 'Hide scenarios';
+            } else {
+                // Hide scenarios and collapse all details
+                scenariosContainer.classList.add('hidden');
+                scenarioDetails.forEach(detail => {
+                    detail.open = false;
+                });
+                button.classList.remove('expanded');
+                button.querySelector('.toggle-icon').textContent = '▶';
+                button.querySelector('.toggle-text').textContent = 'Show scenarios';
+            }
+        }
+    </script>
+</body>
+</html>

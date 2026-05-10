@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 from jinja2 import Environment, BaseLoader, Template
 
+from .classifier import classify_status, _status_color
+
 
 _STATUS_ICON = {
     "passed": "✓",
@@ -245,6 +247,47 @@ def build_default_executive_summary(
         cards.append(
             '<div class="exec-card">'
             "<h3>🎯 Most impacted features</h3>"
+            f"<ol>{items}</ol>"
+            "</div>"
+        )
+
+    # --- Needs review first ----------------------------------------------
+    ALREADY_TRACKED = {"Bug reported", "Test Framework issue"}
+    _REVIEW_PRIORITY = {
+        "Not reported": 0,
+        "New and reported": 1,
+        "Debugging": 2,
+        "Flaky Test": 3,
+    }
+
+    review_candidates = []
+    for g in feature_groups:
+        status = classify_status(g.get("combined_tags", []))
+        if status in ALREADY_TRACKED:
+            continue
+        review_candidates.append((g, status))
+
+    review_candidates.sort(
+        key=lambda pair: (
+            _REVIEW_PRIORITY.get(pair[1], 99),
+            -pair[0].get("failed_scenario_count", 0),
+        )
+    )
+
+    if review_candidates:
+        items = "".join(
+            f"<li><strong>{html.escape(g.get('feature_name', ''))}</strong>"
+            f" &mdash; {g.get('failed_scenario_count', 0)} failing "
+            f"scenario{'s' if g.get('failed_scenario_count', 0) != 1 else ''}"
+            f" <span class='cls-pill' style='background:{_status_color(status)};'>"
+            f"{html.escape(status)}</span></li>"
+            for g, status in review_candidates[:5]
+        )
+        cards.append(
+            '<div class="exec-card">'
+            "<h3>🔍 Needs review first</h3>"
+            "<p class='exec-muted'>Features not yet tracked as bugs or test issues, "
+            "sorted by review priority and impact.</p>"
             f"<ol>{items}</ol>"
             "</div>"
         )
